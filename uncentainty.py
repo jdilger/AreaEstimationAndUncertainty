@@ -1,12 +1,12 @@
 from collections import namedtuple
-from typing import NamedTuple, Tuple, Union
-from unittest import result
+from typing import Tuple, Union
 import numpy as np
 import pandas as pd
 
 
 AreaEstimate = namedtuple("AreaEstimate", "category_area, category_area_95_ci")
 Uncertainty = namedtuple("Uncertainty", "variance, stdError, ci_95, moe")
+
 
 def load_csv(file: str, index_col: Union[int, None] = None) -> pd.DataFrame:
     df = pd.read_csv(file, index_col=index_col)
@@ -19,7 +19,7 @@ def prep_analysis(
     shape = confusion_matrix.shape
     assert (
         shape[0] == shape[1]
-    ), f"confusion maxtrix should hav equal columns and rows: {shape}"
+    ), f"confusion maxtrix should have equal columns and rows: {shape}"
 
     sum_ref_samples = np.sum(confusion_matrix, 0).array
     sum_map_samples = np.sum(confusion_matrix, 1).array
@@ -51,7 +51,7 @@ def uncertainty_estimation(
 ) -> Uncertainty:
     v = np.sum(
         proportional.apply(
-            lambda i: (prep_areas["weight"].array * i - i ** 2)
+            lambda i: (prep_areas["weight"].array * i - i**2)
             / (prep_areas["sum_strata_samples"].array - 1)
         )
     )
@@ -97,6 +97,7 @@ def main():
     results = area_estimation(total_area, area_proportion, uncertainty.ci_95)
 
     print(results)
+
 
 if __name__ == "__main__":
     main()
