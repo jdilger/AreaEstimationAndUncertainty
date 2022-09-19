@@ -82,6 +82,7 @@ def main():
     input_areas_path = "countsReadable_S2_2021_LandCover_Zambezi.csv"
     input_confusion_matrix_path = "confusion.csv"
     area_field = "count"
+    pixel_resolution = 10
 
     areas = load_csv(input_areas_path)
     conf = load_csv(input_confusion_matrix_path, index_col=0)
@@ -94,7 +95,7 @@ def main():
         proportional, area_proportion, prep_areas
     )
 
-    results = area_estimation(total_area, area_proportion, uncertainty.ci_95)
+    results = area_estimation(total_area, area_proportion, uncertainty.ci_95, pixel_resolution)
 
     print(results)
 
